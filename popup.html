@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Social Club Jobs</title>
+</head>
+
+<body>
+    <h1>Social Club Jobs</h1>
+    <div class="tabs">
+        <button class="tab-button" data-tab="jobView">Job View</button>
+        <button class="tab-button" data-tab="generation">Generation</button>
+        <button class="tab-button" data-tab="settings">Settings</button>
+    </div>
+
+    <div id="jobView" class="tab-content active">
+        <div class="compact-view-toggle">
+            <label class="toggle-switch">
+                <input type="checkbox" id="compactViewToggle">
+                <span class="slider round"></span>
+            </label>
+            <span>Compact View</span>
+        </div>
+        <div id="websiteList"></div>
+    </div>
+
+    <div id="generation" class="tab-content">
+        <button id="generateBBcode">Generate BBcode</button>
+        <button id="generateYouTube">Generate YouTube</button>
+        <button id="generateText">Generate Text</button>
+        <button id="generateCSV">Generate CSV</button>
+        <button id="copyButton">Copy to Clipboard</button>
+        <textarea id="outputTextarea" rows="10" cols="50"></textarea>
+    </div>
+
+    <div id="settings" class="tab-content">
+
+        <h2 class="settings-header">BBcode Settings</h2>
+        <div class="settings-group" id="bbcodesettings">
+            <div class="job-item" data-setting="Jobnumbering">
+                <input type="checkbox" id="bbcodeJobnumbering" class="form-checkbox">
+                <label for="bbcodeJobnumbering">Job Numbering</label>
+            </div>
+            <div class="job-item" data-setting="Jobname">
+                <input type="checkbox" id="bbcodeJobname" class="form-checkbox">
+                <label for="bbcodeJobname">Job Name</label>
+            </div>
+            <div class="job-item" data-setting="Jobcreator">
+                <input type="checkbox" id="bbcodeJobcreator" class="form-checkbox">
+                <label for="bbcodeJobcreator">Job Creator</label>
+            </div>
+            <div class="job-item" data-setting="Jobicon">
+                <input type="checkbox" id="bbcodeJobicon" class="form-checkbox">
+                <label for="bbcodeJobicon">Job Icon</label>
+            </div>
+            <div class="job-item" data-setting="Jobtype">
+                <input type="checkbox" id="bbcodeJobtype" class="form-checkbox">
+                <label for="bbcodeJobtype">Job Type</label>
+            </div>
+            <div class="job-item" data-setting="Maxplayers">
+                <input type="checkbox" id="bbcodeMaxplayers" class="form-checkbox">
+                <label for="bbcodeMaxplayers">Max Players</label>
+            </div>
+            <div class="job-item" data-setting="Gtalens">
+                <input type="checkbox" id="bbcodeGtalens" class="form-checkbox">
+                <label for="bbcodeGtalens">GTALens</label>
+                <span class="tooltip-wrapper">
+                    ℹ️
+                    <span class="tooltip">
+                        Requires the <a
+                            href="https://chromewebstore.google.com/detail/gtalens-+-r-social-club/fegmechpmgoiodonbeedmbgfcogingcf"
+                            target="_blank">GTALens extension</a> to be installed.
+                    </span>
+                </span>
+            </div>
+            <div class="job-item" data-setting="Jobimage">
+                <input type="checkbox" id="bbcodeJobimage" class="form-checkbox">
+                <label for="bbcodeJobimage">Job Image</label>
+            </div>
+            <div class="job-item" data-setting="Jobdescription">
+                <input type="checkbox" id="bbcodeJobdescription" class="form-checkbox">
+                <label for="bbcodeJobdescription">Job Description</label>
+            </div>
+            <div class="job-item" data-setting="Creationdate">
+                <input type="checkbox" id="bbcodeCreationdate" class="form-checkbox">
+                <label for="bbcodeCreationdate">Creation Date</label>
+            </div>
+            <div class="job-item" data-setting="Lastupdated">
+                <input type="checkbox" id="bbcodeLastupdated" class="form-checkbox">
+                <label for="bbcodeLastupdated">Last Updated</label>
+            </div>
+            <div class="job-item" data-setting="Linebreak">
+                <input type="checkbox" id="bbcodeLinebreak" class="form-checkbox">
+                <label for="bbcodeLinebreak">Line Break (Always at the end)</label>
+            </div>
+            <div class="job-item" data-setting="customBBcode">
+                <input type="checkbox" id="useCustomBBcode" class="form-checkbox">
+                <label for="useCustomBBcode">Use Custom BBcode</label>
+                <textarea id="customBBcodeInput" class="w-full h-20 p-2 border rounded"></textarea>
+            </div>
+        </div>
+
+        <h2 class="settings-header">YouTube Settings</h2>
+        <div class="settings-group">
+            <div class="job-item" data-setting="Jobnumbering">
+                <input type="checkbox" id="youtubeJobnumbering" class="form-checkbox">
+                <label for="youtubeJobnumbering">Include Job Numbering</label>
+            </div>
+            <div class="job-item" data-setting="Jobtimestamp">
+                <input type="checkbox" id="youtubeJobtimestamp" class="form-checkbox">
+                <label for="youtubeJobtimestamp">Include (approximate) Job Timestamp</label>
+            </div>
+            <div class="job-item" data-setting="Jobname">
+                <input type="checkbox" id="youtubeJobname" class="form-checkbox">
+                <label for="youtubeJobname">Include Job Name</label>
+            </div>
+            <div class="job-item" data-setting="Jobcreator">
+                <input type="checkbox" id="youtubeJobcreator" class="form-checkbox">
+                <label for="youtubeJobcreator">Include Job Creator</label>
+            </div>
+            <div class="job-item" data-setting="Jobtype">
+                <input type="checkbox" id="youtubeJobtype" class="form-checkbox">
+                <label for="youtubeJobtype">Include Job Type</label>
+            </div>
+            <div class="job-item" data-setting="Maxplayers">
+                <input type="checkbox" id="youtubeMaxplayers" class="form-checkbox">
+                <label for="youtubeMaxplayers">Include Max Players</label>
+            </div>
+            <div class="job-item" data-setting="Gtalens">
+                <input type="checkbox" id="youtubeGtalens" class="form-checkbox">
+                <label for="youtubeGtalens">Include GTALens</label>
+                <span class="tooltip-wrapper">
+                    ℹ️
+                    <span class="tooltip">
+                        Requires the <a
+                            href="https://chromewebstore.google.com/detail/gtalens-+-r-social-club/fegmechpmgoiodonbeedmbgfcogingcf"
+                            target="_blank">GTALens extension</a> to be installed.
+                    </span>
+                </span>
+            </div>
+            <div class="job-item" data-setting="Jobdescription">
+                <input type="checkbox" id="youtubeJobdescription" class="form-checkbox">
+                <label for="youtubeJobdescription">Include Job Description</label>
+            </div>
+            <div class="job-item" data-setting="Creationdate">
+                <input type="checkbox" id="youtubeCreationdate" class="form-checkbox">
+                <label for="youtubeCreationdate">Include Creation Date</label>
+            </div>
+            <div class="job-item" data-setting="Lastupdated">
+                <input type="checkbox" id="youtubeLastupdated" class="form-checkbox">
+                <label for="youtubeLastupdated">Include Last Updated</label>
+            </div>
+            <div class="job-item" data-setting="Linebreak">
+                <input type="checkbox" id="youtubeLinebreak" class="form-checkbox">
+                <label for="youtubeLinebreak">Include Line Break</label>
+            </div>
+        </div>
+
+        <h2 class="settings-header">CSV Settings</h2>
+        <div class="settings-group">
+            <div class="job-item" data-setting="IncludeHeaders">
+                <input type="checkbox" id="csvIncludeHeaders" class="form-checkbox">
+                <label for="csvHeaders">Include CSV Headers</label>
+            </div>
+            <div class="job-item" data-setting="Jobname">
+                <input type="checkbox" id="csvJobname" class="form-checkbox">
+                <label for="csvJobname">Include Job Name</label>
+            </div>
+            <div class="job-item" data-setting="Joburl"></div>
+            <input type="checkbox" id="csvJoburl" class="form-checkbox">
+            <label for="csvJoburl">Include Job Link</label>
+        </div>
+        <div class="job-item" data-setting="Jobcreator">
+            <input type="checkbox" id="csvJobcreator" class="form-checkbox">
+            <label for="csvJobcreator">Include Job Creator</label>
+        </div>
+        <div class="job-item" data-setting="Jobtype">
+            <input type="checkbox" id="csvJobtype" class="form-checkbox">
+            <label for="csvJobtype">Include Job Type</label>
+        </div>
+        <div class="job-item" data-setting="Maxplayers">
+            <input type="checkbox" id="csvMaxplayers" class="form-checkbox">
+            <label for="csvMaxplayers">Include Max Players</label>
+        </div>
+        <div class="job-item" data-setting="Gtalens">
+            <input type="checkbox" id="csvGtalens" class="form-checkbox">
+            <label for="csvGtalens">Include GTALens</label>
+            <span class="tooltip-wrapper">
+                ℹ️
+                <span class="tooltip">
+                    Requires the <a
+                        href="https://chromewebstore.google.com/detail/gtalens-+-r-social-club/fegmechpmgoiodonbeedmbgfcogingcf"
+                        target="_blank">GTALens extension</a> to be installed.
+                </span>
+            </span>
+        </div>
+        <div class="job-item" data-setting="Jobimage">
+            <input type="checkbox" id="csvJobimage" class="form-checkbox">
+            <label for="csvJobimage">Job Image</label>
+        </div>
+        <div class="job-item" data-setting="Jobdescription">
+            <input type="checkbox" id="csvJobdescription" class="form-checkbox">
+            <label for="csvJobdescription">Include Job Description</label>
+        </div>
+        <div class="job-item" data-setting="Creationdate">
+            <input type="checkbox" id="csvCreationdate" class="form-checkbox">
+            <label for="csvCreationdate">Include Creation Date</label>
+        </div>
+        <div class="job-item" data-setting="Lastupdated">
+            <input type="checkbox" id="csvLastupdated" class="form-checkbox">
+            <label for="csvLastupdated">Include Last Updated</label>
+        </div>
+        <div class="job-item" data-setting="customCSVtext">
+            <input type="checkbox" id="useCustomCSVtext" class="form-checkbox">
+            <label for="useCustomCSVtext">Use Custom CSV Text</label>
+            <textarea id="customCSVInput" class="w-full h-20 p-2 border rounded"></textarea>
+        </div>
+    </div>
+
+    <h2 class="settings-header">Text Settings</h2>
+    <div class="settings-group">
+        <div class="job-item" data-setting="Jobnumbering">
+            <input type="checkbox" id="textJobnumbering" class="form-checkbox">
+            <label for="textJobnumbering">Include Job Numbering</label>
+        </div>
+        <div class="job-item" data-setting="Jobname">
+            <input type="checkbox" id="textJobname" class="form-checkbox">
+            <label for="textJobname">Include Job Name</label>
+        </div>
+        <div class="job-item" data-setting="Jobcreator">
+            <input type="checkbox" id="textJobcreator" class="form-checkbox">
+            <label for="textJobcreator">Include Job Creator</label>
+        </div>
+        <div class="job-item" data-setting="Joburl">
+            <input type="checkbox" id="textJoburl" class="form-checkbox">
+            <label for="textJoburl">Include Job URL</label>
+        </div>
+        <div class="job-item" data-setting="Jobtype">
+            <input type="checkbox" id="textJobtype" class="form-checkbox">
+            <label for="textJobtype">Include Job Type</label>
+        </div>
+        <div class="job-item" data-setting="Maxplayers">
+            <input type="checkbox" id="textMaxplayers" class="form-checkbox">
+            <label for="textMaxplayers">Include Max Players</label>
+        </div>
+        <div class="job-item" data-setting="Gtalens">
+            <input type="checkbox" id="textGtalens" class="form-checkbox">
+            <label for="textGtalens">Include GTALens</label>
+            <span class="tooltip-wrapper">
+                ℹ️
+                <span class="tooltip">
+                    Requires the <a
+                        href="https://chromewebstore.google.com/detail/gtalens-+-r-social-club/fegmechpmgoiodonbeedmbgfcogingcf"
+                        target="_blank">GTALens extension</a> to be installed.
+                </span>
+            </span>
+        </div>
+        <div class="job-item" data-setting="Jobdescription">
+            <input type="checkbox" id="textJobdescription" class="form-checkbox">
+            <label for="textJobdescription">Include Job Description</label>
+        </div>
+        <div class="job-item" data-setting="Creationdate">
+            <input type="checkbox" id="textCreationdate" class="form-checkbox">
+            <label for="textCreationdate">Include Creation Date</label>
+        </div>
+        <div class="job-item" data-setting="Lastupdated">
+            <input type="checkbox" id="textLastupdated" class="form-checkbox">
+            <label for="textLastupdated">Include Last Updated</label>
+        </div>
+        <div class="job-item" data-setting="Linebreak">
+            <input type="checkbox" id="textLinebreak" class="form-checkbox">
+            <label for="textLinebreak">Include Line Break</label>
+        </div>
+    </div>
+
+    <h2 class="settings-header">Job View Settings</h2>
+    <div class="settings-group">
+        <div class="job-item">
+            <input type="checkbox" id="jobviewMaxplayers" class="form-checkbox">
+            <label for="jobviewMaxplayers">Include Max Players</label>
+        </div>
+        <div class="job-item">
+            <input type="checkbox" id="jobviewCreationdate" class="form-checkbox">
+            <label for="jobviewCreationdate">Include Creation Date</label>
+        </div>
+        <div class="job-item">
+            <input type="checkbox" id="jobviewLastupdated" class="form-checkbox">
+            <label for="jobviewLastupdated">Include Last Updated</label>
+        </div>
+        <div class="job-item">
+            <input type="checkbox" id="jobviewGtalens" class="form-checkbox">
+            <label for="jobviewGtalens">Include GTALens</label>
+            <span class="tooltip-wrapper">
+                ℹ️
+                <span class="tooltip">
+                    Requires the <a
+                        href="https://chromewebstore.google.com/detail/gtalens-+-r-social-club/fegmechpmgoiodonbeedmbgfcogingcf"
+                        target="_blank">GTALens extension</a> to be installed.
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <h2 class="settings-header">Comapct View Settings</h2>
+    <div class="settings-group">
+        <div class="job-item">
+            <input type="checkbox" id="compactviewJobimage" class="form-checkbox">
+            <label for="compactviewJobimage">Include Job Image</label>
+        </div>
+        <div class="job-item">
+            <input type="checkbox" id="compactviewGtalens" class="form-checkbox">
+            <label for="compactviewGtalens">Include GTALens</label>
+            <span class="tooltip-wrapper">
+                ℹ️
+                <span class="tooltip">
+                    Requires the <a
+                        href="https://chromewebstore.google.com/detail/gtalens-+-r-social-club/fegmechpmgoiodonbeedmbgfcogingcf"
+                        target="_blank">GTALens extension</a> to be installed.
+                </span>
+            </span>
+        </div>
+    </div>
+
+    <div class="settings-group">
+        <button id="resetSettingsButton" class="btn btn-danger mt-4">Reset to Default</button>
+    </div>
+
+    </div>
+
+    <!-- Add the About tab content -->
+    <div id="footer">
+        <a href="#" id="moreInfoLink">More Info</a>
+    </div>
+
+    <!-- Collapsible About Section -->
+    <div id="aboutSection" style="display: none;">
+        <h2>About GTA Tools - Job List</h2>
+        <p>
+            Welcome to <strong>GTA Tools - Job List</strong>, an extension designed to help you summarize and export job
+            details from Rockstar Social Club.
+        </p>
+
+        <h3>How to Use</h3>
+        <p>
+            Follow these steps to use the extension:
+        </p>
+        <ol>
+            <li>
+                Open a compatible Rockstar Social Club page in your browser. Supported pages include:
+                <ul>
+                    <li><strong>Job pages:</strong> Example: <code>.../job/gtav/...</code></li>
+                    <li><strong>Playlist pages:</strong> Example: <code>.../games/gtav/ps5/playlists/playlist/...</code>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                Make sure the page is fully loaded before using the extension.
+                <em>(For playlists, the extension will open multiple tabs to load jobs. You'll need to wait for these to
+                    fully load before re-clicking the extension icon)</em>
+            </li>
+            <li>
+                Click the extension icon to view job details. Use the <strong>Generation Tab</strong> to export data in
+                BBCode,
+                Text, CSV, or "YouTube" formats.
+            </li>
+            <li>
+                Customize the exported fields in the <strong>Settings Tab</strong>.
+            </li>
+        </ol>
+
+        <h3>Support</h3>
+        <p>
+            If you encounter any issues or have suggestions, feel free to reach out to <a
+                href="https://socialclub.rockstargames.com/member/ajm_agrajag" target="_blank">ajm_agrajag</a> on Social
+            Club.
+        </p>
+
+        <div id="disclaimer">
+            <h3>Disclaimer</h3>
+            <p>
+                This extension interacts with publicly available data on Rockstar Social Club. By using this extension,
+                you agree to:
+            </p>
+            <ul>
+                <li>
+                    Comply with <a href="https://www.rockstargames.com/legal" target="_blank">Rockstar's Terms of
+                        Service</a> and applicable laws.
+                </li>
+                <li>
+                    Use the extension responsibly and avoid overloading Rockstar's servers or redistributing data in
+                    violation of their policies.
+                </li>
+                <li>
+                    Acknowledge that this extension is not affiliated with or endorsed by Rockstar Games. All trademarks
+                    and copyrighted material are the property of their respective owners.
+                </li>
+                <li>
+                    Accept that the extension is provided "as-is" without warranties. The developer is not liable for
+                    any damages or misuse.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
